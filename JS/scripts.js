@@ -4,11 +4,35 @@ $(document).ready(function() {
   var initialRightSectionWidth = null;
   var initialPageWidth = $(window).width();
 
-  $(window).resize(function() {
-    // 当窗口大小改变时，重新初始化初始宽度记录变量
-    initialLeftSectionWidth = null;
-    initialRightSectionWidth = null;
-  });
+//   $(window).resize(function() {
+//     // 当窗口大小改变时，重新初始化初始宽度记录变量
+//     initialLeftSectionWidth = null;
+//       initialRightSectionWidth = null;
+      
+    //   });
+    
+    $(window).resize(function() {
+        initialLeftSectionWidth = null;
+        initialRightSectionWidth = null;
+        // 获取页面可视区域高度和宽度，重新计算可用空间等
+        var viewportHeight = $(window).height() * 0.9;
+        var viewportWidth = $(window).width();
+        var availableWidth = viewportWidth; // 这里假设整体占满窗口宽度，可根据实际调整
+        var availableHeight = viewportHeight - 2;
+        // 重新分配高度和宽度，比如按一定比例分给左右和上下区域
+        var leftSectionWidthRatio = 0.6; // 假设左侧区域初始宽度占比60%，可调整
+        var rightSectionWidthRatio = 0.4; // 右侧区域初始宽度占比40%
+        var upperInitialHeightRatio = 0.3; // 假设上方区域初始高度占比30%
+        var lowerInitialHeightRatio = 0.7; // 下方区域初始高度占比70%
+        var leftSectionWidth = availableWidth * leftSectionWidthRatio;
+        var rightSectionWidth = availableWidth * rightSectionWidthRatio;
+        var upperInitialHeight = availableHeight * upperInitialHeightRatio;
+        var lowerInitialHeight = availableHeight * lowerInitialHeightRatio;
+        $('.left-section').width(leftSectionWidth);
+        $('.right-section').width(rightSectionWidth);
+        $('.requirement-description').height(upperInitialHeight);
+        $('.mathematical-modeling').height(lowerInitialHeight);
+    });
 
   // 点击显示左下方部分的按钮
   $('.show-lower-left-btn').click(function() {
@@ -103,7 +127,20 @@ $(document).ready(function() {
 
 // 点击显示右侧部分的按钮
 $('.show-right-btn').click(function() {
-  $('.right-section').show();
+    console.log('点击显示右侧部分按钮');
+    $('.right-section').show();
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    console.log('获取的视口宽度：', viewportWidth);
+    var rightSectionInitialWidth = viewportWidth * 0.4;
+    console.log('计算出的右侧区域初始宽度：', rightSectionInitialWidth);
+
+
+    console.log('当前.right-section宽度样式：', $('.right-section').css('width'));
+    $('.right - section').width(rightSectionInitialWidth);
+    // 检查设置宽度后元素的宽度样式
+    console.log('设置宽度后.right-section宽度样式：', $('.right-section').css('width'));
+
+
   // 记录鼠标是否在右侧区域拉伸条内进行水平拖动操作，初始化为false
   var isDraggingHorizontal = false;
   // 记录水平拖动的初始位置（横坐标），初始化为null
@@ -111,12 +148,13 @@ $('.show-right-btn').click(function() {
   // 定义水平拖动的容差范围，用于判断鼠标在稍微离开拉伸条区域时仍能继续水平拖动，单位为像素，可根据实际情况调整
   var horizontalTolerance = 5;
   // 用于节流的定时器变量，控制鼠标移动事件的触发频率
-  var horizontalMoveTimer = null;
+    var horizontalMoveTimer = null;
+    
 
   $('.right-section').resizable({
       handles: "w", // 只通过左边沿（w）进行拖动，实现右边固定，左边可调整宽度
       grid: [10, 0], // 水平方向移动步长为10px
-      minWidth: 600, // 最小宽度限制
+      minWidth: 50, // 最小宽度限制
       maxWidth: 900, // 最大宽度限制，可根据实际调整
       resize: function(event, ui) {
           // 获取左侧区域（包含上下两个框）的总宽度
