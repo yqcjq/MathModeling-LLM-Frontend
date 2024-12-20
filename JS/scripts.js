@@ -121,12 +121,10 @@ $(document).ready(function() {
      });
  });
 
-    
-
 
 
 // 点击显示右侧部分的按钮
-$('.show-right-btn').click(function() {
+$('.left-section-botton-generate-code').click(function() {
     console.log('点击显示右侧部分按钮');
     $('.right-section').show();
     var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
@@ -257,4 +255,30 @@ $('.show-right-btn').click(function() {
   
   
   
-  
+const modelButton = document.querySelector('.right-section-model-button');
+    const dataButton = document.querySelector('.right-section-data-button');
+    const codingSection = document.querySelector('.right-section-coding');
+    const dataSection = document.querySelector('.right-section-data');
+
+    // 给模型按钮添加点击事件监听器
+    modelButton.addEventListener('click', function () {
+      codingSection.style.display = 'block';
+      dataSection.style.display = 'none';
+    });
+
+    // 给数据按钮添加点击事件监听器
+    dataButton.addEventListener('click', function () {
+      dataSection.style.display = 'block';
+      codingSection.style.display = 'none';
+    });
+
+
+
+
+
+
+    const showModelBtn = document.querySelector('.show-lower-left-btn');
+    const leftSectionBotton = document.querySelector('.left-section-botton');
+    showModelBtn.addEventListener('click', function () {
+        leftSectionBotton.style.display = 'flex';
+    });

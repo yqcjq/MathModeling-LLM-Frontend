@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 90vh; /* 占满视口高度 */
+  height: 92vh; /* 占满视口高度 */
   box-sizing: border-box;
   overflow: hidden; /* 防止页面整体滑动，隐藏超出部分 */
 }
@@ -14,6 +14,7 @@
   height: 3vh;
   line-height: 3vh;
   width:95%;
+  margin: 10px 0;
 }
 
 .top-section-left {
@@ -33,7 +34,7 @@
   padding: 0 1vw;
 }
 
-.top-section-savebuttom {
+.top-section-savebotton {
   padding: 0 1vw;
   color: #5086d0;
   font-weight: 700;
@@ -50,7 +51,6 @@
 
 /* 此处是需求描述的样式 */
 .left-section {
-
   display: flex;
   flex-direction: column;
   width: 95%;
@@ -82,14 +82,14 @@
 .requirement-description-input {
   width: auto;  /* 设置固定宽度 */
   height: 80vh;  /* 设置固定高度 */
-  border: 1.5px solid #5086d0;
+  border: 1px solid #5086d0;
   padding: 10px;
   font-family: Arial, sans-serif;
   font-size: 14px;
   resize: none;  /* 禁止用户手动调整大小 */
   overflow-y: auto;  /* 当内容在垂直方向溢出时自动显示滚动条 */
   margin: 0 1vw;
-  background-color: #F1F4F3;
+  background-color: #F5F7F9;
   border-radius: 3px;
   outline: none;
 }
@@ -104,6 +104,7 @@
   border-radius: 5px;
   height: 4vh;
   border:1px solid #F1F4F3;
+  
 }
 
 
@@ -138,7 +139,7 @@
 
 .mathematical-modeling-left-code {
   width: auto;
-  height: 45vh;
+  height: 50vh;
   border: 0.8px solid #ccc;
   border-radius: 4px;
   margin: 10px 0.5vw;
@@ -146,11 +147,11 @@
 
 .mathematical-modeling-right-part {
   display: block;
-  width: 65vw;
+  width: 70vw;
 }
 .mathematical-modeling-right-suggestion {
   width: auto;
-  height: 45vh;
+  height: 53vh;
   border: 0.8px solid #ccc;
   border-radius: 4px;
   margin: 10px 0.5vw;
@@ -168,20 +169,138 @@
 
 }
 
+.left-section-botton {
+  display: flex;
+  padding-top: 5px;
+  justify-content: flex-end;
+  display: none
+}
+
+.left-section-botton-remodel {
+  background-color: #F5F7F9;
+  color: #0059EF;
+  font-weight: 600;
+  font-size: xx-small;
+  padding: 6px 10px;
+  border-radius: 3px;
+  margin-right: 9px;
+  
+}
+
+.left-section-botton-generate-code {
+  background-color: #0059EF;
+  color: #F5F7F9;
+  font-weight: 600;
+  font-size: xx-small;
+  padding: 6px 10px;
+  border-radius: 3px;
+  margin-right: 9px;
+
+
+}
+
+.left-section-botton-assistant {
+  background-color: #F5F7F9;
+  color: #0059EF;
+  font-weight: 600;
+  font-size: xx-small;
+  padding: 6px 10px;
+  border-radius: 3px;
+  margin-right: 9px;
+  /* position: absolute; */
+
+}
+
+
+
+
+
+
+
+
 /* 此处是右侧代码部分的样式 */
 .right-section {
   border: 1px solid #ccc; /* 添加这行代码，设置1px的灰色边框 */
   /* padding: 10px; */
-  margin: 0;
+  height: 700px;
+  width: auto;
 flex-grow:0.4;
   overflow-y: auto; /* 仅允许垂直方向滚动，当内容超出时出现滚动条 */
   display: none;
-  position: relative;
+  padding:0 10px;
+}
+
+.right-section-nav {
+  display: flex;
+
+}
+
+.right-section-model-button {
+  height: 20px;
+  padding: 5px 10px;
+  font-size: medium;
+  font-weight: 600;
+  margin: 20px 0px 0 0px;
+  border: 0.8px solid #ccc;
+  border-radius: 5px;
+  line-height: 20px;
+  width: 33px;
+
+
+}
+
+.right-section-data-button {
+  height: 20px;
+  padding: 5px 10px;
+  font-size: medium;
+  font-weight: 600;
+  margin: 20px 0px 0 0px;
+  border: 0.8px solid #ccc;
+  border-radius: 5px;
+  line-height: 20px;
+  width: 33px;
 }
 
 .right-section-coding {
+  background-color: #1A1C1E;
+  color: #ccc;
+  height: 80vh;
   width: auto;
+  left: 0;
 }
+
+.right-section-data {
+  background-color: #F5F7F9;
+  color: #000000;
+  height: 80vh;
+  width: auto;
+  display: none;
+}
+
+.right-section-bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.right-section-bottom-botton {
+  background-color: #0059EF;
+  color: #F5F7F9;
+  font-weight: 600;
+  font-size: xx-small;
+  padding: 6px 9px;
+  border-radius: 3px;
+  width: 25px;
+  margin-top: 9px;
+
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -215,7 +334,7 @@ flex-grow:0.4;
   left: 0;
   right: 0;
   height: 2px; /* 保持2px高度 */
-  background-color: #ccc; /* 拖动条的颜色，可按需修改 */
+  background-color: #ffffff; /* 拖动条的颜色，可按需修改 */
   cursor: row-resize; /* 鼠标样式为上下拖动样式 */
   z-index: 10; /* 确保在内容之上，方便操作 */
   -webkit-transition: background-color 0.3s ease;
