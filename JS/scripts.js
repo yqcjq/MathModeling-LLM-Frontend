@@ -35,20 +35,25 @@ $(document).ready(function() {
     });
 
   // 点击显示左下方部分的按钮
-  $('.show-lower-left-btn').click(function() {
-    $('.requirement-description').show();
-    $('.mathematical-modeling').show();
-    // 获取页面可视区域高度
-    var viewportHeight = $(window).height() * 0.9;
-    // 去除上下边框的高度（这里假设边框宽度都是1px，可根据实际修改）
-    var availableHeight = viewportHeight - 2;
-    // 初始分配给上下两个框各一半高度
-    var upperInitialHeight = availableHeight * 0.30;
-    var lowerInitialHeight = availableHeight * 0.70;
-    $('.requirement-description').height(upperInitialHeight);
-    $('.mathematical-modeling').height(lowerInitialHeight);
-    // 记录初始位置，用于后续计算拖动偏移量
-    var startY = null;
+    $('.show-lower-left-btn').click(function () {
+        var inputText = $('#myTextarea').val();
+        if (inputText === "") {
+            alert("请输入建模内容哦");
+            return;
+        }
+        $('.requirement-description').show();
+        $('.mathematical-modeling').show();
+        // 获取页面可视区域高度
+        var viewportHeight = $(window).height() * 0.9;
+        // 去除上下边框的高度（这里假设边框宽度都是1px，可根据实际修改）
+        var availableHeight = viewportHeight - 2;
+        // 初始分配给上下两个框各一半高度
+        var upperInitialHeight = availableHeight * 0.30;
+        var lowerInitialHeight = availableHeight * 0.70;
+        $('.requirement-description').height(upperInitialHeight);
+        $('.mathematical-modeling').height(lowerInitialHeight);
+        // 记录初始位置，用于后续计算拖动偏移量
+        var startY = null;
 
     
      // 记录鼠标是否在拖动操作中（在拉伸条按下鼠标后开始拖动为true），初始化为false
@@ -119,6 +124,25 @@ $(document).ready(function() {
          startY = null;
          isDragging = false;
      });
+      
+        // 获取文本框中的输入内容
+      var inputText = $('#myTextarea').val();
+      if (inputText) {
+          $.ajax({
+              url: 'http://222.20.98.39:3000/api/v1/chat/completions',
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({ input_text: inputText }),
+              success: function (response) {
+                console.log("发送的内容:", inputText);
+                console.log("收到的内容:", response);
+              },
+              error: function () {
+                  console.log('向后端发送分析建模请求出错，请稍后再试');
+              }
+          });
+      }
+      
  });
 
 
@@ -149,52 +173,52 @@ $('.left-section-botton-generate-code').click(function() {
     var horizontalMoveTimer = null;
     
 
-  $('.right-section').resizable({
-      handles: "w", // 只通过左边沿（w）进行拖动，实现右边固定，左边可调整宽度
-      grid: [10, 0], // 水平方向移动步长为10px
-      minWidth: 50, // 最小宽度限制
-      maxWidth: 900, // 最大宽度限制，可根据实际调整
-      resize: function(event, ui) {
-          // 获取左侧区域（包含上下两个框）的总宽度
-          var leftSection = $('.left-section');
-          var leftSectionWidth = leftSection.width();
-          // 获取右侧框当前宽度
-          var rightSectionWidth = $('.right-section').width();
-
-          // 如果是首次记录初始宽度或者窗口大小改变后（此时这两个变量被重置为null）
-          if (initialLeftSectionWidth === null || initialRightSectionWidth == null) {
-              initialLeftSectionWidth = leftSectionWidth;
-              initialRightSectionWidth = rightSectionWidth;
-          }
-
-          // 计算宽度变化量
-          var widthDelta = ui.size.width - initialRightSectionWidth;
-
-          // 根据宽度变化量等比例调整左侧区域的宽度，同时保持右侧框右侧边框固定
-          var newLeftSectionWidth = initialLeftSectionWidth - widthDelta;
-          leftSection.width(newLeftSectionWidth);
-
-          // 更新右侧框的宽度，保持右侧边框位置固定
-          $('.right-section').css({
-              width: ui.size.width,
-              left: 0
-          });
-
-          // 解决内容溢出问题，先获取右侧框内所有元素
-          var elements = $('.right-section').find('*');
-          // 遍历每个元素，更新其宽度、左边距和右边距，确保内容不溢出且布局合理
-          elements.each(function() {
-              var element = $(this);
-              var elementWidth = element.width();
-              var newWidth = ui.size.width - element.position().left - element.position().right - 20;
-              element.css({
-                  'width': newWidth,
-                  'margin-left': element.position().left,
-                  'margin-right': ui.size.width - element.position().left - newWidth
-              });
-          });
-      }
-  });
+    $('.right-section').resizable({
+        handles: "w", // 只通过左边沿（w）进行拖动，实现右边固定，左边可调整宽度
+        grid: [10, 0], // 水平方向移动步长为10px
+        minWidth: 50, // 最小宽度限制
+        maxWidth: 900, // 最大宽度限制，可根据实际调整
+        resize: function(event, ui) {
+            // 获取左侧区域（包含上下两个框）的总宽度
+            var leftSection = $('.left-section');
+            var leftSectionWidth = leftSection.width();
+            // 获取右侧框当前宽度
+            var rightSectionWidth = $('.right-section').width();
+  
+            // 如果是首次记录初始宽度或者窗口大小改变后（此时这两个变量被重置为null）
+            if (initialLeftSectionWidth === null || initialRightSectionWidth == null) {
+                initialLeftSectionWidth = leftSectionWidth;
+                initialRightSectionWidth = rightSectionWidth;
+            }
+  
+            // 计算宽度变化量
+            var widthDelta = ui.size.width - initialRightSectionWidth;
+  
+            // 根据宽度变化量等比例调整左侧区域的宽度，同时保持右侧框右侧边框固定
+            var newLeftSectionWidth = initialLeftSectionWidth - widthDelta;
+            leftSection.width(newLeftSectionWidth);
+  
+            // 更新右侧框的宽度，保持右侧边框位置固定
+            $('.right-section').css({
+                width: ui.size.width,
+                left: 0
+            });
+  
+            // 解决内容溢出问题，先获取右侧框内所有元素
+            var elements = $('.right-section').find('*');
+            // 遍历每个元素，更新其宽度、左边距和右边距，确保内容不溢出且布局合理
+            elements.each(function() {
+                var element = $(this);
+                var elementWidth = element.width();
+                var newWidth = ui.size.width - element.position().left - element.position().right - 20;
+                element.css({
+                    'width': newWidth,
+                    'margin-left': element.position().left,
+                    'margin-right': ui.size.width - element.position().left - newWidth
+                });
+            });
+        }
+    });
 
   // 绑定鼠标进入和离开事件，用于判断鼠标是否进入右侧区域拉伸条（考虑水平容差范围）
   $('.right-section').on('mouseenter', function() {
@@ -246,15 +270,14 @@ $('.left-section-botton-generate-code').click(function() {
       isDraggingHorizontal = false;
   });
 });
+    
+    
+    
+    
 });
 
 
-  
-  
-
-  
-  
-  
+  //此处是第三部分点击数据和代码切换页面
 const modelButton = document.querySelector('.right-section-model-button');
     const dataButton = document.querySelector('.right-section-data-button');
     const codingSection = document.querySelector('.right-section-coding');

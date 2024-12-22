@@ -11,14 +11,20 @@
 /* 此处是nav的样式 */
 .top-section {
   display: flex;
-  height: 3vh;
-  line-height: 3vh;
-  width:95%;
+  height: 40px;
+  line-height: 40px;
+  width:100%;
   margin: 10px 0;
 }
 
 .top-section-left {
   display: flex;
+}
+
+.top-section-image {
+  width: 150px;
+  height: 43px;
+  margin-left: 20px;
 }
 
 .top-section-right {
@@ -40,11 +46,22 @@
   font-weight: 700;
   background-color: #F1F4F3;
   border-radius: 5px;
-  height: 3vh;
+  height: 40px;
 }
 
 .top-section-avatar {
-  padding: 0 1vw;
+  margin-left: 20px;
+  text-align: center;
+  height: 50px;
+  width:  50px;
+  background-color: #FB8568;
+  border-radius: 25px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 50px;
+  position: relative;
+  top:-5px;
+  margin-right: 50px;
 }
 
 
@@ -52,6 +69,7 @@
 /* 此处是需求描述的样式 */
 .left-section {
   display: flex;
+ 
   flex-direction: column;
   width: 95%;
   display: flex;
@@ -60,6 +78,7 @@
 
 .requirement-description {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   border: 1px solid #ccc;
   border-top: none;
@@ -165,7 +184,7 @@
   margin: 0 auto;
   background-color: #F1F4F3;
   outline: none;
-  width: auto;
+  width: 85%;
 
 }
 
