@@ -126,12 +126,16 @@ $(document).ready(function() {
      });
       
         // 获取文本框中的输入内容
+      AUTH_TOKEN="fastgpt-yt38oh7XZBxmhdNYQcDGLJSG0LcbandiBrLPZpD6C1itNROWI8rpfOVg"
       var inputText = $('#myTextarea').val();
       if (inputText) {
           $.ajax({
-              url: 'http://222.20.98.39:3000/api/v1/chat/completions',
+              url: 'http://222.20.98.39:8020/api/v1/chat/completions',
               type: 'POST',
               contentType: 'application/json',
+              headers: {
+                Authorization: `Bearer ${AUTH_TOKEN}`
+             },
               data: JSON.stringify({ input_text: inputText }),
               success: function (response) {
                 console.log("发送的内容:", inputText);
