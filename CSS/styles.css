@@ -162,6 +162,8 @@
   border: 0.8px solid #ccc;
   border-radius: 4px;
   margin: 10px 0.5vw;
+  overflow-y: auto; /* 当内容在垂直方向溢出时显示滚动条 */
+  padding: 5px; /* 添加内边距，使内容与边框有一定间隔 */
 }
 
 .mathematical-modeling-right-part {

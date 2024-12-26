@@ -35,7 +35,7 @@
         <div class="mathematical-modeling-content">
           <div class="mathematical-modeling-left-part">
             <div class="mathematical-modeling-title">数学建模</div>
-            <div class="mathematical-modeling-left-code">1234</div>
+            <div class="mathematical-modeling-left-code"></div>
           </div>
           <div class="mathematical-modeling-right-part">
             <div class="mathematical-modeling-right-suggestion">
@@ -67,7 +67,17 @@
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="/JS/scripts.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/JS/scripts.js" type="module"></script>
   <script src="/JS/jquery-ui.min.js"></script>
+  <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+     MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+    };
+  </script>
 </body>
 </html>

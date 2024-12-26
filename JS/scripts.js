@@ -1,4 +1,11 @@
-$(document).ready(function() {
+const url = "http://222.20.98.39:3000/api/v1/chat/completions";
+const AUTH_TOKEN = "fastgpt-jpFb0KKAHWbpUW87CDgNAKnQdfILEiK4yjBMv8nL4tJstAdgfEBWfNlsetjGP";
+const headers = {
+    "Authorization": `Bearer ${AUTH_TOKEN}`,  // 假设你的令牌是Bearer类型的
+    "Content-Type": "application/json"  // 通常需要设置内容类型为JSON
+};
+
+$(document).ready(function () {
   // 记录初始宽度，用于后续计算宽度变化时使用
   var initialLeftSectionWidth = null;
   var initialRightSectionWidth = null;
@@ -41,6 +48,7 @@ $(document).ready(function() {
             alert("请输入建模内容哦");
             return;
         }
+        console.log("已点击")
         $('.requirement-description').show();
         $('.mathematical-modeling').show();
         // 获取页面可视区域高度
@@ -124,33 +132,206 @@ $(document).ready(function() {
          startY = null;
          isDragging = false;
      });
+
+
+    //  
+    //  
+          
       
-        // 获取文本框中的输入内容
-      AUTH_TOKEN="fastgpt-yt38oh7XZBxmhdNYQcDGLJSG0LcbandiBrLPZpD6C1itNROWI8rpfOVg"
-      var inputText = $('#myTextarea').val();
-      if (inputText) {
-          $.ajax({
-              url: 'http://222.20.98.39:8020/api/v1/chat/completions',
-              type: 'POST',
-              contentType: 'application/json',
-              headers: {
-                Authorization: `Bearer ${AUTH_TOKEN}`
-             },
-              data: JSON.stringify({ input_text: inputText }),
-              success: function (response) {
-                console.log("发送的内容:", inputText);
-                console.log("收到的内容:", response);
-              },
-              error: function () {
-                  console.log('向后端发送分析建模请求出错，请稍后再试');
-              }
-          });
-      }
       
+        sendRequest1().then(result => {
+            if (result) {
+                $('.mathematical-modeling').show();
+                sendRequest2(result).then(data => {
+                    if (data) {
+                        console.log('最终结果:', data);
+                    }
+                });
+            }
+        });
+ 
+        
+       
+          
+     
  });
 
 
+ function handleAxiosError(error) {
+    if (error.response) {
+        console.error('请求失败，状态码:', error.response.status);
+        console.error('响应数据:', error.response.data);
+    } else if (error.request) {
+        console.error('请求发送了，但没有收到响应:', error.request);
+    } else {
+        console.error('发生错误:', error.message);
+    }
+}
+    
+   // 开始第一步--------------------------------------------------------------------------------------------
+        // 设置第一步的提示词
+async function sendRequest1() {
+    var inputText = $('#myTextarea').val();
+    if (!inputText) {
+        console.log(inputText);
+        return null;
+    }
+    const promptFor1 = "//问题描述\n" + inputText +
+    "\n\n根据问题描述提取出所有该问题的约束条件列出来，一个约束分一点，既要考虑问题所属模型类型本身具备的全部约束条件，又要考虑问题描述中体现的新约束条件。\n\n下面是输出格式：\n\n//约束描述\n1)目标函数是最小化最大完成时间或完工时间;\n2)...\n3)...\n\n请严格按照示例的格式输出约束描述的部分，包含“//约束描述”这几个字，此外不输出其他任何内容。";
+    const data1 = {
+        "stream": false,
+        "detail": false,
+        "messages": [
+            {'role': 'user', 'content': promptFor1}
+        ]
+    };
+    try {
+        const response = await axios.post(url, data1, { headers });
+        const responseData = response.data;
+        const choices = responseData.choices || [];
+        if (choices.length > 0) {
+            const message = choices[0].message || {};
+            const content = message.content || "No content found in the response";
+            // 从回复的内容中拿到约束描述
+            const constraintDescription = content;
+            console.log(constraintDescription);
+            console.log('成功提取约束描述');
+            // const formattedContent = constraintDescription.replace(/\n/g, '<br>');
+            // $('.mathematical-modeling-left-code').text(formattedContent);
+            // return constraintDescription;
+            const element = document.querySelector('.mathematical-modeling-left-code');
+            const lines = constraintDescription.split('\n');
+            lines.forEach((line, index) => {
+                const textNode = document.createTextNode(line);
+                element.appendChild(textNode);
+                if (index < lines.length - 1) {
+                    const br = document.createElement('br');
+                    element.appendChild(br);
+                }
+            });
+            return { inputText, constraintDescription };
+        } else {
+            console.log("No choices found in the response");
+        }
+    } catch (error) {
+        handleAxiosError(error);
+    }
+    return null;
+  }
 
+// 开始第二步--------------------------------------------------------------------------------------------
+// 设置第二步的提示词
+async function sendRequest2({ inputText, constraintDescription }) {
+    let promptFor2 ="//问题描述\n" + inputText + constraintDescription +
+    "根据问题描述和约束描述，写出参数列表，为每一条约束构建对应的公式，但不需要为目标函数构建公式。\n" +
+    "你要从这几个方面思考后再构建\n" +
+    "1.考虑全局性，比如同一个变量用同一个字母，不能乱用混用\n" +
+    "2.考虑变量取值，比如问题描述中已经给出某些变量的取值\n" +
+    "3.考虑变量取值范围约束，比如时间必须为非负数、作业编号必须为正整数等\n" +
+    "4.可以定义一些决策变量来辅助构建公式，比如用于判断的二进制变量\n" +
+    "下面是输出格式：\n" +
+    "//参数列表\n" +
+    "已知变量的定义为：\n" +
+    "i：机器索引\n" +
+    "...\n" +
+    "//公式构建\n" +
+    "$$...\n" +
+    "...\n$$";
+   console.log("成功进入sendRequest2")
+    const data2 = {
+        "stream": false,
+        "detail": false,
+        "messages": [
+            {'role': 'user', 'content': promptFor2}
+        ]
+    };
+
+    try {
+        const response = await axios.post(url, data2, { headers });
+        const responseData = response.data;
+        const choices = responseData.choices || [];
+        if (choices.length > 0) {
+            const message = choices[0].message || {};
+            const content = message.content || "No content found in the response";
+            // 从回复的内容中拿到符号列表和公式
+            // 找到两个标志的起始索引
+            const startVarIdx = content.indexOf("//参数列表");
+            const endVarIdx = content.indexOf("//公式构建", startVarIdx);  // 从startVarIdx之后查找
+            // 提取两个字符串
+            const variable1 = content.substring(startVarIdx + 6, endVarIdx).trim();
+            const formula1 = content.substring(endVarIdx + 6).trim();
+            console.log(formula1);
+            console.log('成功提取公式与变量');
+            const element = document.querySelector('.mathematical-modeling-left-code');
+            // 先插入一个换行标签
+            const br = document.createElement('br');
+            element.appendChild(br);
+
+            // // 处理 variable1
+            let lines2 = variable1.split('\n');
+            // lines2 = lines2.map(line => line.trim());
+            // if (lines2.length === 1 &&!lines2[0].startsWith('$') &&!lines2[0].startsWith('\\(')) {
+            //     lines2[0] = `$${lines2[0]}$`;
+            // } else {
+            //     lines2 = lines2.map(line => {
+            //         if (!line.startsWith('$') &&!line.startsWith('\\(')) {
+            //             return `$${line}$`;
+            //         }
+            //         return line;
+            //     });
+            // }
+            lines2.forEach((line, index) => {
+                const textNode = document.createTextNode(line);
+                element.appendChild(textNode);
+                if (index < lines2.length - 1) {
+                    const br = document.createElement('br');
+                    element.appendChild(br);
+                }
+            });
+            // 再插入一个换行标签用于分隔 variable1 和 formula1
+            const separator = document.createElement('br');
+            separator.style.marginTop = '10px'; // 调整分隔线的样式
+            element.appendChild(separator);
+            // 处理 formula1
+            let lines3 = formula1.split('\n');
+            // lines3 = lines3.map(line => line.trim());
+            // if (lines3.length === 1 &&!lines3[0].startsWith('$$') &&!lines3[0].startsWith('\\[')) {
+            //     lines3[0] = `$$${lines3[0]}$$`;
+            // } else {
+            //     lines3 = lines3.map(line => {
+            //         if (!line.startsWith('$$') &&!line.startsWith('\\[')) {
+            //             return `$$${line}$$`;
+            //         }
+            //         return line;
+            //     });
+            // }
+            lines3.forEach((line, index) => {
+                const textNode = document.createTextNode(line);
+                element.appendChild(textNode);
+                if (index < lines3.length - 1) {
+                    const br = document.createElement('br');
+                    element.appendChild(br);
+                }
+            });
+
+            // 使用 MathJax 的 typesetPromise 确保在 MathJax 准备好后进行渲染
+            MathJax.typesetPromise(element).then(() => {
+                console.log('MathJax 渲染完成');
+            }).catch((error) => {
+                console.error('MathJax 渲染错误:', error.message);
+                console.error('详细错误信息:', error);
+            });
+            return { variable1, formula1 };
+        } else {
+            console.log("No choices found in the response");
+        }
+    } catch (error) {
+        handleAxiosError(error);
+    }
+    return null;
+}
+    
+    
 // 点击显示右侧部分的按钮
 $('.left-section-botton-generate-code').click(function() {
     console.log('点击显示右侧部分按钮');
