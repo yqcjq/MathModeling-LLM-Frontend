@@ -1,0 +1,40 @@
+{variable}
+
+一个例子：{
+#Reference Library
+import gurobipy as gp
+from gurobipy import GRB
+...
+#fuction
+def solve_jsp(num_machines, num_jobs, job_seqs, production_time, V):
+	model = gp.Model("JSP")
+#define variables
+    # 定义决策变量 Z[i][j][k]：若工件 j 在机器 i 上先于工件 k 加工，则 Z=1
+        Z = model.addVars(num_machines, num_jobs, num_jobs, vtype=GRB.BINARY, name="Z")
+...
+# define objective function
+    model.setObjective(C_max, GRB.MINIMIZE) 
+# constraint(1)
+for j in range(num_jobs):
+            for h in range(1, len(job_seqs[j])):
+                prev_machine = job_seqs[j][h - 1]
+                curr_machine = job_seqs[j][h]
+                model.addConstr(X[curr_machine, j] >= X[prev_machine, j] + production_time[prev_machine][j], name=f"seq_{j}_{h}")
+...
+model.params.TimeLimit=10s
+    model.setParam('Threads',20)
+    model.update()
+    return model
+}
+你是一名MILP数学建模专家，参考上面例子，针对下面公式写出对应的数学模型函数，该问题为JSP模型。模型的传入参数为（MacNum, job_count, job_seqs, production_time, V）。其中job_count为工件数量，MacNum为机器数量,job_seqs为二维加工顺序矩阵，如job_seqs[j][h]表示工件j的第h道工序的加工机器；production_time为二维加工时间矩阵，production_time[i][j]为工件j在机器i上的加工时间;注意job_seqs和production_time表达必须是production_time[i][j]的形式而非production_time[i,j]，production_time[i,j]不符合代码规范。V为一个极大的数。决策变量为C_max、x[i,j]和z[i,j,k]。
+函数名称为JSPModel。模型TimeLimit参数设置为10，Threads参数设置为20。你需要首先确定决策变量的个数与公式个数，确保代码编写时不会缺少变量或公式。之后按照例子的方式逐步编写代码，首先定义决策变量，其次编写约束代码，每个步骤分别表达清楚，不能出现没有定义的变量。注意函数的传入参数数量，输出代码里函数的传入参数必须与要求一致。
+以下是约束对应的数学公式，我们使用的求解器是gurobi：
+
+{formula}
+
+输出格式为：
+from gurobipy import Model, GRB, quicksum
+import sys
+......
+
+保持简洁和标准，严格按照格式，仅输出格式要求的内容，不输出其他任何提示或总结的内容。

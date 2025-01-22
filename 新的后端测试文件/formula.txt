@@ -1,0 +1,6 @@
+\begin{equation}x_{i j} \geq 0, \quad \forall j \in J, i \in M\end{equation}#(约束1)
+\begin{equation}x_{\sigma_h^j, j} \geq x_{\sigma_{h-1}^j, j}+p_{\sigma_{h-1}^j, j}, \quad \forall j \in J, h=2, \ldots, m\end{equation}#(约束2)
+\begin{equation}x_{i j} \geq x_{i k}+p_{i k}-V \cdot z_{i j k}, \quad \forall j, k \in J, j<k, i \in M\end{equation}#(约束3)
+\begin{equation}x_{i k} \geq x_{i j}+p_{i j}-V \cdot\left(1-z_{i j k}\right), \quad \forall j, k \in J, j<k, i \in M\end{equation}#(约束3)
+\begin{equation}C_{\max } \geq x_{\sigma_m^j, j}+p_{\sigma_m^j, j}, \quad \forall j \in J\end{equation}#(约束4)
+\begin{equation}z_{i j k} \in\{0,1\}, \quad \forall j, k \in J, i \in M\end{equation}#(约束5)

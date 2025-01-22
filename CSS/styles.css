@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 92vh; /* 占满视口高度 */
+  height: 91vh; /* 占满视口高度 */
   box-sizing: border-box;
   overflow: hidden; /* 防止页面整体滑动，隐藏超出部分 */
 }
@@ -11,10 +11,10 @@
 /* 此处是nav的样式 */
 .top-section {
   display: flex;
-  height: 40px;
+  height: 37px;
   line-height: 40px;
   width:100%;
-  margin: 10px 0;
+  margin: 7px 0;
 }
 
 .top-section-left {
@@ -46,22 +46,25 @@
   font-weight: 700;
   background-color: #F1F4F3;
   border-radius: 5px;
-  height: 40px;
+  height: 30px;
+  line-height: 30px;
+  margin: 10px 0px;
 }
 
 .top-section-avatar {
   margin-left: 20px;
   text-align: center;
-  height: 50px;
-  width:  50px;
+  height: 30px;
+  width:  30px;
   background-color: #FB8568;
-  border-radius: 25px;
-  font-weight: 600;
+  border-radius: 15px;
+  font-weight: 400;
   color: #fff;
-  line-height: 50px;
+  line-height: 30px;
   position: relative;
-  top:-5px;
+  top:0px;
   margin-right: 50px;
+  margin-top: 10px;
 }
 
 
@@ -115,7 +118,7 @@
 
 .show-lower-left-btn {
   min-width: 7vw;
-  margin: 15px auto;
+  margin: 10px auto 0px;
   padding: 5px 1vw;
   color: #5086d0;
   font-weight: 700;
@@ -137,46 +140,46 @@
 
 .mathematical-modeling {
   border: 1px solid #ccc;
-  padding: 10px;
+  padding-top: 1vh;
   margin: 0;
   flex-grow: 1;
   overflow-y: auto; /* 仅允许垂直方向滚动，当内容超出时出现滚动条 */
   display: none;
-  position: relative;
+  /* position: relative; */
 }
 
 .mathematical-modeling-content {
   display: flex;
-  
+  height: 300px;
 }
 
 .mathematical-modeling-left-part {
   display: block;
-  width: 95vw;
+  width: 70%;
 }
 
 
 .mathematical-modeling-left-code {
   width: auto;
-  height: 50vh;
+  height: 118%;
   border: 0.8px solid #ccc;
   border-radius: 4px;
-  margin: 10px 0.5vw;
+  margin: 10px 1vh;
   overflow-y: auto; /* 当内容在垂直方向溢出时显示滚动条 */
   padding: 5px; /* 添加内边距，使内容与边框有一定间隔 */
 }
 
 .mathematical-modeling-right-part {
   display: block;
-  width: 70vw;
+  width: 30%;
 }
 .mathematical-modeling-right-suggestion {
   width: auto;
-  height: 53vh;
+  height: 133.4%;
   border: 0.8px solid #ccc;
   border-radius: 4px;
-  margin: 10px 0.5vw;
-  padding: 1vw 1vw;
+  margin-right: 1vh;
+  padding: 1vh 0.6vh;
   text-align: center
 }
 
@@ -191,10 +194,10 @@
 }
 
 .left-section-botton {
+  padding:121px 0px 10px;
   display: flex;
-  padding-top: 5px;
   justify-content: flex-end;
-  display: none
+  top:500px;
 }
 
 .left-section-botton-remodel {
@@ -241,19 +244,26 @@
 
 /* 此处是右侧代码部分的样式 */
 .right-section {
-  border: 1px solid #ccc; /* 添加这行代码，设置1px的灰色边框 */
+  border: 0.5px solid #ccc; /* 添加这行代码，设置1px的灰色边框 */
   /* padding: 10px; */
   height: 700px;
   width: auto;
-flex-grow:0.4;
+  flex-grow:0.4;
   overflow-y: auto; /* 仅允许垂直方向滚动，当内容超出时出现滚动条 */
   display: none;
-  padding:0 10px;
+  padding:0 5px;
+  border-radius: 5px;
 }
+
+/* .right-section-total{
+  width:100%;
+} */
 
 .right-section-nav {
   display: flex;
-
+  position: relative;
+  height: auto;
+  width: auto;
 }
 
 .right-section-model-button {
@@ -261,7 +271,7 @@ flex-grow:0.4;
   padding: 5px 10px;
   font-size: medium;
   font-weight: 600;
-  margin: 20px 0px 0 0px;
+  margin: 10px 0px 0px 0px;
   border: 0.8px solid #ccc;
   border-radius: 5px;
   line-height: 20px;
@@ -275,7 +285,7 @@ flex-grow:0.4;
   padding: 5px 10px;
   font-size: medium;
   font-weight: 600;
-  margin: 20px 0px 0 0px;
+  margin-top: 10px;
   border: 0.8px solid #ccc;
   border-radius: 5px;
   line-height: 20px;
@@ -296,6 +306,8 @@ flex-grow:0.4;
   height: 80vh;
   width: auto;
   display: none;
+  left: -35px;
+
 }
 
 .right-section-bottom {
@@ -329,7 +341,7 @@ flex-grow:0.4;
 /* 调整右侧区域与其他区域交互部分的拉伸条样式，这里假设通过左边沿拖动调整宽度 */
 .right-section::before {
   content: "";
-  position: absolute;
+  /* position: absolute; */
   left: 0;
   top: 0;
   bottom: 0;
@@ -354,7 +366,7 @@ flex-grow:0.4;
   top: 0;
   left: 0;
   right: 0;
-  height: 2px; /* 保持2px高度 */
+  /* height: 4px; 保持2px高度 */
   background-color: #ffffff; /* 拖动条的颜色，可按需修改 */
   cursor: row-resize; /* 鼠标样式为上下拖动样式 */
   z-index: 10; /* 确保在内容之上，方便操作 */
@@ -375,7 +387,7 @@ flex-grow:0.4;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px; /* 保持你原本设置的2px高度 */
+  /* height: 0.2px; 保持你原本设置的2px高度 */
   background-color: #ccc; /* 拖动条的颜色，可按需修改 */
   cursor: row-resize; /* 鼠标样式为上下拖动样式 */
   z-index: 10; /* 确保在内容之上，方便操作 */

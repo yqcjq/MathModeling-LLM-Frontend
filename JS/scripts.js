@@ -266,20 +266,58 @@ async function sendRequest2({ inputText, constraintDescription }) {
             // 先插入一个换行标签
             const br = document.createElement('br');
             element.appendChild(br);
-
+            
             // // 处理 variable1
+            // let lines2 = variable1.split('\n');
+            // // lines2 = lines2.map(line => line.trim());
+            // // if (lines2.length === 1 &&!lines2[0].startsWith('$') &&!lines2[0].startsWith('\\(')) {
+            // //     lines2[0] = `$${lines2[0]}$`;
+            // // } else {
+            // //     lines2 = lines2.map(line => {
+            // //         if (!line.startsWith('$') &&!line.startsWith('\\(')) {
+            // //             return `$${line}$`;
+            // //         }
+            // //         return line;
+            // //     });
+            // // }
+            // lines2.forEach((line, index) => {
+            //     const textNode = document.createTextNode(line);
+            //     element.appendChild(textNode);
+            //     if (index < lines2.length - 1) {
+            //         const br = document.createElement('br');
+            //         element.appendChild(br);
+            //     }
+            // });
+            // // 再插入一个换行标签用于分隔 variable1 和 formula1
+            // const separator = document.createElement('br');
+            // separator.style.marginTop = '10px'; // 调整分隔线的样式
+            // element.appendChild(separator);
+            // // 处理 formula1
+            // let lines3 = formula1.split('\n');
+            // // lines3 = lines3.map(line => line.trim());
+            // // if (lines3.length === 1 &&!lines3[0].startsWith('$$') &&!lines3[0].startsWith('\\[')) {
+            // //     lines3[0] = `$$${lines3[0]}$$`;
+            // // } else {
+            // //     lines3 = lines3.map(line => {
+            // //         if (!line.startsWith('$$') &&!line.startsWith('\\[')) {
+            // //             return `$$${line}$$`;
+            // //         }
+            // //         return line;
+            // //     });
+            // // }
+            // lines3.forEach((line, index) => {
+            //     const textNode = document.createTextNode(line);
+            //     element.appendChild(textNode);
+            //     if (index < lines3.length - 1) {
+            //         const br = document.createElement('br');
+            //         element.appendChild(br);
+            //     }
+            // });
+
+
+
+            // 处理 variable1
             let lines2 = variable1.split('\n');
-            // lines2 = lines2.map(line => line.trim());
-            // if (lines2.length === 1 &&!lines2[0].startsWith('$') &&!lines2[0].startsWith('\\(')) {
-            //     lines2[0] = `$${lines2[0]}$`;
-            // } else {
-            //     lines2 = lines2.map(line => {
-            //         if (!line.startsWith('$') &&!line.startsWith('\\(')) {
-            //             return `$${line}$`;
-            //         }
-            //         return line;
-            //     });
-            // }
             lines2.forEach((line, index) => {
                 const textNode = document.createTextNode(line);
                 element.appendChild(textNode);
@@ -288,23 +326,12 @@ async function sendRequest2({ inputText, constraintDescription }) {
                     element.appendChild(br);
                 }
             });
-            // 再插入一个换行标签用于分隔 variable1 和 formula1
+            // 插入分隔符
             const separator = document.createElement('br');
-            separator.style.marginTop = '10px'; // 调整分隔线的样式
+            separator.style.marginTop = '10px';
             element.appendChild(separator);
             // 处理 formula1
             let lines3 = formula1.split('\n');
-            // lines3 = lines3.map(line => line.trim());
-            // if (lines3.length === 1 &&!lines3[0].startsWith('$$') &&!lines3[0].startsWith('\\[')) {
-            //     lines3[0] = `$$${lines3[0]}$$`;
-            // } else {
-            //     lines3 = lines3.map(line => {
-            //         if (!line.startsWith('$$') &&!line.startsWith('\\[')) {
-            //             return `$$${line}$$`;
-            //         }
-            //         return line;
-            //     });
-            // }
             lines3.forEach((line, index) => {
                 const textNode = document.createTextNode(line);
                 element.appendChild(textNode);
@@ -314,8 +341,9 @@ async function sendRequest2({ inputText, constraintDescription }) {
                 }
             });
 
+
             // 使用 MathJax 的 typesetPromise 确保在 MathJax 准备好后进行渲染
-            MathJax.typesetPromise(element).then(() => {
+            MathJax.typesetPromise([element]).then(() => {
                 console.log('MathJax 渲染完成');
             }).catch((error) => {
                 console.error('MathJax 渲染错误:', error.message);
