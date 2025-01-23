@@ -292,6 +292,9 @@ output_file_path = "finall_prompt.txt"#输出最后的提示词
 write_output_to_file(output_file_path, prompt_code)
 
 
+
+
+
 #让GLM输出代码
 inference_result = model_inference(prompt_code)    
 # 3保存推理结果到 step4_output.txt
@@ -316,6 +319,17 @@ if model.status == GRB.OPTIMAL:
         print()
 else:
     print("No optimal solution found.")
+
+
+
+
+
+
+
+
+
+
+
 
 #绘制甘特图
 if model.status == GRB.OPTIMAL:
