@@ -22,9 +22,10 @@
 }
 
 .top-section-image {
-  width: 150px;
-  height: 43px;
+  width: 185px;
+  height: 41px;
   margin-left: 20px;
+  margin-right: 10px;
 }
 
 .top-section-right {
@@ -292,18 +293,41 @@
   width: 33px;
 }
 
-.right-section-coding {
-  background-color: #1A1C1E;
-  color: #ccc;
-  height: 80vh;
+.language-python {
+  background-color: #1A1C1E!important;
+  color: white !important;
+  height: 79vh;
   width: auto;
   left: 0;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* 自定义代码颜色 */
+code.hljs {
+  color: white !important; /* 默认文字颜色 */
+}
+
+/* 例如，自定义注释颜色 */
+.hljs-comment {
+  color: #6a9955 !important; /* 绿色注释 */
+}
+
+/* 自定义关键字颜色 */
+.hljs-keyword {
+  color: #d7ba7d !important; /* 黄色关键字 */
+}
+
+/* 自定义字符串颜色 */
+.hljs-string {
+  color: #ce9178 !important; /* 橙色字符串 */
 }
 
 .right-section-data {
   background-color: #F5F7F9;
   color: #000000;
-  height: 80vh;
+  height: 79vh;
   width: auto;
   display: none;
   left: -35px;
@@ -400,3 +424,7 @@
 .requirement-description::after:hover {
   background-color: #999;
 }
+
+
+
+

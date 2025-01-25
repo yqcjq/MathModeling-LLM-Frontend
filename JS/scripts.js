@@ -7,30 +7,34 @@ const headers = {
 };
 
 
-//接口二参数
-const apikey = "EMPTY"
-const openaiurl = 'http://222.20.98.39:8020/v1/chat/completions';
-const max_tokens=8192
-const temperature=0
+//接口三参数
+// const apikey = "EMPTY"
+const openaiurl = 'http://222.20.98.39:3000/v1/chat/completions';
+// const max_tokens=8192
+// const temperature=0
 
 var formula1;
 var variable1;
-
-
+var code1;
+// const AUTH_TOKEN2 = "fastgpt-ymV97NBkDb2WOHJExIqDg2m8mmoY3HjqwkX9yUC2Ht6w6nudIR0HI";
+// const AUTH_TOKEN2 = "fastgpt-mk1kYLqyzqbKzUBxweZmbDW7u8Ied41goeJi7EQU1NrtkwLCNAN7E9N114NCutF2C";
+const AUTH_TOKEN2 = "fastgpt-x48OZI9q1fyTLY2jn7qHWh6HTfRy0RXWFxW9QEwqPC6ZgTezkoPXv";
+const headers3 = {
+    "Authorization": `Bearer ${AUTH_TOKEN2}`,  // 假设你的令牌是Bearer类型的
+    "Content-Type": "application/json"  // 通常需要设置内容类型为JSON
+};
 async function callOpenAI(promptContent) {
+    const data3 = {
+        "stream": false,
+        "detail": false,
+        "messages": [
+            { 'role': 'user', 'content': promptContent }
+        ]
+    };
     try {
-        const response = await axios.post(openaiurl, {
-            model: "glm-4",
-            messages: [{ "role": "user", "content": promptContent }],
-            max_tokens:8192,
-            temperature:0,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apikey}`
-            }
-        });
-        console.log(response.data);
+        const response3 = await axios.post(openaiurl, data3, { headers: headers3 });
+        console.log("服务器返回的信息是：",response3.data.choices[0].message.content);
+        code1 = response3.data.choices[0].message.content;
     } catch (error) {
         console.error('调用 OpenAI API 时出错:', error);
         if (error.response) {
@@ -373,7 +377,18 @@ $(document).ready(function () {
         var horizontalTolerance = 5;
         // 用于节流的定时器变量，控制鼠标移动事件的触发频率
         var horizontalMoveTimer = null;
-
+        // var codeFilePath = '../JSP_MILPModel.py';
+        // $.get(codeFilePath, function (codeContent) {
+        //     // 读取 prompt 文件,替换文件中的部分内容
+        //     console.log("此时的code为：", codeContent)
+        //     const codeContainer = document.getElementById('code-container');
+        //     // 将变量中的代码内容插入到容器中
+        //     codeContainer.textContent = codeContent;
+        //     // 手动触发 Prism.js 的高亮功能
+        //     hljs.highlightElement(codeContainer);
+        // }).fail(function (error) {
+        //     console.error('Error fetching the file:', error);
+        // });
         var promptFilePath = '../prompt_for_3.txt'; // 替换为你的 prompt 文件的实际路径
         $.get(promptFilePath, function (promptContent) {
             // 读取 prompt 文件,替换文件中的部分内容
@@ -384,15 +399,20 @@ $(document).ready(function () {
             if (generateCodeButton.length > 0) {
 
                 callOpenAI(promptContent).then(result => {
-                    console.log(result);
+                    console.log("正在渲染高光")
+                    const codeContainer = document.getElementById('code-container');
+                    // 将变量中的代码内容插入到容器中
+                    codeContainer.textContent = code1;
+                    // 手动触发 Prism.js 的高亮功能
+                    hljs.highlightElement(codeContainer);
                 }).catch(error => {
                     console.error(error);
                 });
                 
-            } else {
+                } else {
                 console.error('Generate code button not found.');
             }
-
+            
         });
 
 
@@ -504,7 +524,7 @@ $(document).ready(function () {
     //此处是第三部分点击数据和代码切换页面
     const modelButton = document.querySelector('.right-section-model-button');
     const dataButton = document.querySelector('.right-section-data-button');
-    const codingSection = document.querySelector('.right-section-coding');
+    const codingSection = document.querySelector('.language-python');
     const dataSection = document.querySelector('.right-section-data');
 
     // 给模型按钮添加点击事件监听器
