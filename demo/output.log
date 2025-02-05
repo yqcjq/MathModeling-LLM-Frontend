@@ -1,0 +1,19 @@
+nohup: ignoring input
+Traceback (most recent call last):
+  File "/data/scheduling_group_data/ssLLM/jiang/demo/main.py", line 99, in <module>
+    server.serve_forever()
+  File "/home/ssLLM/miniconda3/envs/llama_factory0/lib/python3.10/site-packages/gevent/baseserver.py", line 398, in serve_forever
+    self.start()
+  File "/home/ssLLM/miniconda3/envs/llama_factory0/lib/python3.10/site-packages/gevent/baseserver.py", line 336, in start
+    self.init_socket()
+  File "/home/ssLLM/miniconda3/envs/llama_factory0/lib/python3.10/site-packages/gevent/pywsgi.py", line 1668, in init_socket
+    StreamServer.init_socket(self)
+  File "/home/ssLLM/miniconda3/envs/llama_factory0/lib/python3.10/site-packages/gevent/server.py", line 173, in init_socket
+    self.socket = self.get_listener(self.address, self.backlog, self.family)
+  File "/home/ssLLM/miniconda3/envs/llama_factory0/lib/python3.10/site-packages/gevent/server.py", line 185, in get_listener
+    return _tcp_listener(address, backlog=backlog, reuse_addr=cls.reuse_addr, family=family)
+  File "/home/ssLLM/miniconda3/envs/llama_factory0/lib/python3.10/site-packages/gevent/server.py", line 264, in _tcp_listener
+    sock.bind(address)
+  File "/home/ssLLM/miniconda3/envs/llama_factory0/lib/python3.10/site-packages/gevent/_socketcommon.py", line 543, in bind
+    return self._sock.bind(address)
+PermissionError: [Errno 13] Permission denied: ('0.0.0.0', 80)

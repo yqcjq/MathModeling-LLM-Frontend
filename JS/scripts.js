@@ -35,6 +35,7 @@ async function callOpenAI(promptContent) {
         const response3 = await axios.post(openaiurl, data3, { headers: headers3 });
         console.log("服务器返回的信息是：",response3.data.choices[0].message.content);
         code1 = response3.data.choices[0].message.content;
+        code = code.replace(/\t/g, '');
     } catch (error) {
         console.error('调用 OpenAI API 时出错:', error);
         if (error.response) {

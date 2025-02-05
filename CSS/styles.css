@@ -299,9 +299,11 @@
   height: 79vh;
   width: auto;
   left: 0;
-  overflow: hidden;
-  white-space: pre-wrap;
+  overflow: auto;
+  white-space: pre;
   word-wrap: break-word;
+  padding:5px;
+  text-align: left;
 }
 
 /* 自定义代码颜色 */
