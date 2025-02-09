@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import os
 from JSP_main import extract_jsp_data
 from gurobipy import GRB
 
 app = Flask(__name__)
+CORS(app, origins=["http://127.0.0.1:5501"]) 
 
 # 日志文件路径
 log_file_path = 'milp_jsp.log'

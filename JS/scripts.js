@@ -52,6 +52,40 @@ async function callOpenAI(promptContent) {
     }
 }
 
+
+
+//接口四参数
+const url4 = "http://222.20.98.39:5055/inference";
+const data4 = {
+    "inference_result": code1
+};
+const headers4 = {
+    "Content-Type": "application/json" 
+};
+async function sendCode() {
+    try {
+        console.log("进入执行函数");
+        console.log("正在向后端发送代码，代码内容是：", code1);
+        const response4 = await axios.post(url4, data4, { headers:headers4 });
+        
+        console.log("服务器返回的信息是：",response4.data);
+    } catch (error) {
+        console.error('调用sendCode时出错:', error);
+        if (error.response) {
+            // 请求已发出，但服务器响应状态码不在 2xx 范围内
+            console.error('状态码:', error.response.status);
+            console.error('响应数据:', error.response.data);
+        } else if (error.request) {
+            // 请求已发出，但未收到响应
+            console.error('未收到服务器响应:', error.request);
+        } else {
+            // 其他错误，例如设置请求时发生错误
+            console.error('错误信息:', error.message);
+        }
+    }
+}
+
+
 $(document).ready(function () {
     // 记录初始宽度，用于后续计算宽度变化时使用
     var initialLeftSectionWidth = null;
@@ -540,6 +574,18 @@ $(document).ready(function () {
         codingSection.style.display = 'none';
     });
 
+
+
+    $('.right-section-bottom-botton').click(function (){
+        dataSection.style.display = 'block';
+        codingSection.style.display = 'none';
+        sendCode().then(result => {
+            console.log("成功向后端发送代码");
+        }).catch(error => {
+            console.error(error);
+        });
+
+    });
 
 
 
