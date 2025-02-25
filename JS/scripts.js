@@ -9,18 +9,20 @@ const headers = {
 
 //接口三参数
 // const apikey = "EMPTY"
-const openaiurl = 'http://222.20.98.39:3000/v1/chat/completions';
+// const openaiurl = 'http://222.20.98.39:3000/api/v1/chat/completions';
 // const max_tokens=8192
 // const temperature=0
 
 var formula1;
 var variable1;
 var code1;
+var log1;
 // const AUTH_TOKEN2 = "fastgpt-ymV97NBkDb2WOHJExIqDg2m8mmoY3HjqwkX9yUC2Ht6w6nudIR0HI";
+
 // const AUTH_TOKEN2 = "fastgpt-mk1kYLqyzqbKzUBxweZmbDW7u8Ied41goeJi7EQU1NrtkwLCNAN7E9N114NCutF2C";
-const AUTH_TOKEN2 = "fastgpt-x48OZI9q1fyTLY2jn7qHWh6HTfRy0RXWFxW9QEwqPC6ZgTezkoPXv";
+const AUTH_TOKEN3 = "fastgpt-x48OZI9q1fyTLY2jn7qHWh6HTfRy0RXWFxW9QEwqPC6ZgTezkoPXv";
 const headers3 = {
-    "Authorization": `Bearer ${AUTH_TOKEN2}`,  // 假设你的令牌是Bearer类型的
+    "Authorization": `Bearer ${AUTH_TOKEN3}`,  // 假设你的令牌是Bearer类型的
     "Content-Type": "application/json"  // 通常需要设置内容类型为JSON
 };
 async function callOpenAI(promptContent) {
@@ -32,10 +34,10 @@ async function callOpenAI(promptContent) {
         ]
     };
     try {
-        const response3 = await axios.post(openaiurl, data3, { headers: headers3 });
+        const response3 = await axios.post(url, data3, { headers:headers3 });
         console.log("服务器返回的信息是：",response3.data.choices[0].message.content);
         code1 = response3.data.choices[0].message.content;
-        code = code.replace(/\t/g, '');
+        code1 = code1.replace(/\t/g, '');
     } catch (error) {
         console.error('调用 OpenAI API 时出错:', error);
         if (error.response) {
@@ -54,21 +56,25 @@ async function callOpenAI(promptContent) {
 
 
 
+
 //接口四参数
 const url4 = "http://222.20.98.39:5055/inference";
-const data4 = {
-    "inference_result": code1
-};
 const headers4 = {
     "Content-Type": "application/json" 
 };
 async function sendCode() {
     try {
-        console.log("进入执行函数");
+        console.log("进入执行senCode函数");
         console.log("正在向后端发送代码，代码内容是：", code1);
+        const data4 = {
+            "inference_result": code1
+        };
+        console.log("data4的内容是：", data4);
         const response4 = await axios.post(url4, data4, { headers:headers4 });
+       
         
-        console.log("服务器返回的信息是：",response4.data);
+        console.log("服务器返回的信息是：", response4.data);
+        
     } catch (error) {
         console.error('调用sendCode时出错:', error);
         if (error.response) {
@@ -84,6 +90,38 @@ async function sendCode() {
         }
     }
 }
+
+
+
+
+//接口五参数
+const url5 = "http://222.20.98.39:5055/logs";
+const headers5 = {
+    "Content-Type": "application/json" 
+};
+async function showLog() {
+    try {
+        console.log("进入执行showLog函数");
+        const response5 = await axios.get(url5, { headers:headers5 });     
+        console.log("服务器返回的信息是：", response5.data);
+        log1 = response5.data.logs;
+        console.log("日志的内容是：", response5.data.logs);
+    } catch (error) {
+        console.error('调用sendCode时出错:', error);
+        if (error.response) {
+            // 请求已发出，但服务器响应状态码不在 2xx 范围内
+            console.error('状态码:', error.response.status);
+            console.error('响应数据:', error.response.data);
+        } else if (error.request) {
+            // 请求已发出，但未收到响应
+            console.error('未收到服务器响应:', error.request);
+        } else {
+            // 其他错误，例如设置请求时发生错误
+            console.error('错误信息:', error.message);
+        }
+    }
+}
+
 
 
 $(document).ready(function () {
@@ -576,11 +614,27 @@ $(document).ready(function () {
 
 
 
+
     $('.right-section-bottom-botton').click(function (){
         dataSection.style.display = 'block';
         codingSection.style.display = 'none';
         sendCode().then(result => {
-            console.log("成功向后端发送代码");
+            console.log("成功向后端发送代码，现在开始循环调用showLog函数");
+            //每1000ms调用一次，调用五次
+            let counter = 0; // 初始化计数器
+            const intervalId = setInterval(() => {
+                showLog();
+                
+                const logContainer = document.getElementById('log-container');
+                    // 将变量中的日志内容插入到容器中
+                    logContainer.textContent = log1;
+                counter++; // 每次调用 showLog 函数后计数器加 1
+                if (counter === 5) {
+                    // 当计数器达到 5 时，停止定时器
+                    clearInterval(intervalId);
+                    console.log('showLog 函数已调用五次，停止循环');
+                }
+            }, 1000);
         }).catch(error => {
             console.error(error);
         });
