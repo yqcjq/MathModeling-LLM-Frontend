@@ -1,6 +1,6 @@
 //接口一参数
 const url = "http://222.20.98.39:3000/api/v1/chat/completions";
-const AUTH_TOKEN = "fastgpt-jpFb0KKAHWbpUW87CDgNAKnQdfILEiK4yjBMv8nL4tJstAdgfEBWfNlsetjGP";
+const AUTH_TOKEN = "fastgpt-fengKuangXingQi4Vwo50";
 const headers = {
     "Authorization": `Bearer ${AUTH_TOKEN}`,  // 假设你的令牌是Bearer类型的
     "Content-Type": "application/json"  // 通常需要设置内容类型为JSON
@@ -17,10 +17,10 @@ var formula1;
 var variable1;
 var code1;
 var log1;
-// const AUTH_TOKEN2 = "fastgpt-ymV97NBkDb2WOHJExIqDg2m8mmoY3HjqwkX9yUC2Ht6w6nudIR0HI";
+// const AUTH_TOKEN2 = "fastgpt-fengKuangXingQi4Vwo50";
 
-// const AUTH_TOKEN2 = "fastgpt-mk1kYLqyzqbKzUBxweZmbDW7u8Ied41goeJi7EQU1NrtkwLCNAN7E9N114NCutF2C";
-const AUTH_TOKEN3 = "fastgpt-x48OZI9q1fyTLY2jn7qHWh6HTfRy0RXWFxW9QEwqPC6ZgTezkoPXv";
+// const AUTH_TOKEN2 = "fastgpt-fengKuangXingQi4Vwo50";
+const AUTH_TOKEN3 = "fastgpt-fengKuangXingQi4Vwo50";
 const headers3 = {
     "Authorization": `Bearer ${AUTH_TOKEN3}`,  // 假设你的令牌是Bearer类型的
     "Content-Type": "application/json"  // 通常需要设置内容类型为JSON
